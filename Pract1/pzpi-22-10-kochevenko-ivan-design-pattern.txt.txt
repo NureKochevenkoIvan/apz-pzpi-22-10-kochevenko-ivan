@@ -1,0 +1,253 @@
+﻿МІНІСТЕРСТВО ОСВІТИ І НАУКИ УКРАЇНИ
+
+
+ХАРКІВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ РАДІОЕЛЕКТРОНІКИ
+
+Кафедра «Програмна інженерія»
+
+
+
+ЗВІТ
+до практичного заняття №2 з дисципліни
+«Архітектура програмного забезпечення»
+На тему: «Архітектура відомих програмних систем»
+
+
+
+
+Виконав:								Перевірив:
+ст. гр. ПЗПІ-22-10						ст. викладач кафедри ПІ
+Кочевенко Іван Анатолійович				Сокорчук Ігор Петрович
+
+
+
+
+
+
+
+
+
+Харків 2025
+Історія змін:
+
+Завдання:
+   1. Підготувати доповідь на тему: «Шаблон (патерн) проєктування ПЗ» (із книг: Ґамма, “ООП. Патерни проєктування”, GoF, крім патерна Singletone)
+   2. Створити та оформити слайди презентації доповіді
+   3. Створити та опублікувати на YouTube відеозапис доповіді
+   4. Оформити та завантажити на dl.nure.ua звіт до виконаної роботи
+   5. При потребі створити та налаштувати у GitHub обліковий запис для облікового запису студента в домені @nure.ua
+   6. Створити для виконання завдань з дисципліни GitHub репозиторій iз вказаним на https://dl.nure.ua іменем та з головною гілкою main
+   7. Створити у корені створеного репозиторію файл README.md з вказаним далі змістом та вказані далі директорії для окремих завдань
+   8. Експортувати звіт у файл у простому текстововому форматі та завантажити цей файл у директорію Pract1 у репозиторії GitHub
+   9. Завантажити у вказану далі піддиректорію увесь програмний код, який розглядається у доповіді ПЗ1.
+
+Хід роботи:
+Було обрано тему «Шаблон Memento проєктування ПЗ». У презентації (Додаток Б) наведено пояснення щодо структури і принципів патерну і надано приклади реалізації на Python та C++.
+
+Висновки:
+Набуто навичок проектування за патерном Memnto, розглянуто приклад практичної реалізації на Python та C++.
+
+ДОДАТОК А
+
+Відеозапис доповіді на YouTube: https://youtu.be/24_u7xKOPPs?si=jCN1JwAWRGIbZUDk
+0:00 Вступ 
+0:14 Ознайомлення з поняттям шаблон проєктування програмного забезпечення
+0:46 Ознайомлення з патерном Memento 
+1:12 Постановка проблеми 
+2:52 Вирішення проблеми за допомогою Memento (теорія) 
+3:45 Приклад реалізації із зовнішнім інтерфейсом (Python) 
+5:09 Приклад реалізації із вкладеним класом (C++) 
+6:18 Де використовується Memento? 
+7:30 Недоліки патерну Memento 
+8:35 Висновки 
+9:00 Список джерел
+
+ДОДАТОК Б
+
+Рис Б.1 – Титульний слайд
+
+Рис Б.2 – Вступний слайд
+
+Рис Б.3 – Слайд із інформацієї про патерн Memento
+
+Рис Б.4 – Слайд із постановкою проблеми
+
+Рис Б.5 – Слайд із постановкою проблеми
+
+Рис Б.6 – Слайд із вирішенням проблеми за допомогою патерна Memento
+
+Рис Б.7 – Слайд із прикладом реалізації патерна Memento Memento через зовнішній інтерфейс (Python)
+
+Рис Б.8 – Слайд із прикладом реалізації патерна Memento через зовнішній інтерфейс (Python)
+
+Рис Б.9 – Слайд із прикладом реалізації патерна Memento через вкладений клас (C++)
+
+Рис Б.10 – Слайд із прикладом реалізації патерна Memento через вкладений клас (C++)
+
+Рис Б.11 – Слайд із прикладами, де використовують патерн Memento
+
+Рис Б.12 – Слайд із недоліками патерна Memento
+
+Рис Б.13 – Слайд із висновками
+
+Рис Б.14 – Слайд із списком джерел
+
+Рис Б.15 – Слайд-подяка
+
+ДОДАТОК В
+Файл «memento.py»
+class RectangleMemento:
+    def __init__(self, width, height, color, Xposition, Yposition, layer):
+        self.width = width
+        self.height = height
+        self.color = color
+        self.Xposition = Xposition
+        self.Yposition = Yposition
+        self.layer = layer
+
+class Rectangle:
+    def __init__(self, width, height, color, Xposition, Yposition, layer):
+        self.width = width
+        self.height = height
+        self.color = color
+        self.Xposition = Xposition
+        self.Yposition = Yposition
+        self.layer = layer
+
+    def create_memento(self):
+        return RectangleMemento(self.width, self.height, self.color, self.Xposition,
+                                self.Yposition, self.layer)
+
+    def restore_from_memento(self, memento):
+        self.width = memento.width
+        self.height = memento.height
+        self.color = memento.color
+        self.Xposition = memento.Xposition
+        self.Yposition = memento.Yposition
+        self.layer = memento.layer
+
+    def display(self):
+        print(f"Rectangle(width={self.width}, height={self.height}, color='{self.color}', "
+              f"Xposition ='{self.Xposition}', Yposition ='{self.Yposition}', layer={self.layer})")
+
+class History:
+    def __init__(self):
+        self._history = []
+
+    def save(self, memento):
+        self._history.append(memento)
+
+    def undo(self):
+        if self._history:
+            return self._history.pop()
+        return None
+
+rectangle = Rectangle(100, 50, 'red', 28, 44, 1)
+history = History()
+
+rectangle.display()
+
+history.save(rectangle.create_memento())
+
+rectangle.width = 200
+rectangle.color = 'blue'
+rectangle.layer = 3
+rectangle.display()
+
+memento = history.undo()
+if memento:
+    rectangle.restore_from_memento(memento)
+
+rectangle.display()
+
+
+Файл «memento.cpp»
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Rectangle {
+private:
+    int width, height;
+    string color;
+    int x, y;
+    int layer;
+
+public:
+    Rectangle(int w, int h, const string& c, int x, int y, int l) : width(w), height(h), color(c), x(x), y(y), layer(l) {}
+
+    void display() const {
+        cout << "Rectangle(width=" << width
+            << ", height=" << height
+            << ", color=" << color
+            << ", x=" << x
+            << ", y=" << y
+            << ", layer=" << layer << ")" << endl;
+    }
+
+    class Memento {
+    private:
+        int width, height;
+        string color;
+        int x, y;
+        int layer;
+
+        friend class Rectangle;
+
+        Memento(int w, int h, const string& c, int x, int y, int l)
+            : width(w), height(h), color(c), x(x), y(y), layer(l) {}
+
+    public:
+        Memento(const Memento& other) = default;
+        ~Memento() = default;
+    };
+
+    Memento save() const {
+        return Memento(width, height, color, x, y, layer);
+    }
+
+    void restore(const Memento& memento) {
+        width = memento.width;
+        height = memento.height;
+        color = memento.color;
+        x = memento.x;
+        y = memento.y;
+        layer = memento.layer;
+    }
+};
+
+class History {
+private:
+    vector<Rectangle::Memento> history;
+
+public:
+    void save(const Rectangle::Memento& memento) {
+        history.push_back(memento);
+    }
+
+    Rectangle::Memento undo() {
+        if (!history.empty()) {
+            Rectangle::Memento m = history.back();
+            history.pop_back();
+            return m;
+        }
+        throw runtime_error("History is empty!");
+    }
+};
+
+int main() {
+    Rectangle rect(100, 50, "red", 50, 40, 1);
+    History history;
+
+    rect.display();
+    history.save(rect.save());
+
+    rect = Rectangle(200, 100, "blue", 88, 41, 2);
+    rect.display();
+
+    rect.restore(history.undo());
+    rect.display();
+
+    return 0;
+}
+
